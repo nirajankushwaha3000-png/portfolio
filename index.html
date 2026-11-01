@@ -1,6 +1,29 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Skills Portfolio</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nirajan Kushwaha | Developer Portfolio</title>
+<meta name="description" content="Portfolio of Nirajan Kushwaha, a student at BMS Institute of Technology and Management, Bengaluru, learning Python, Java and web development.">
+<style>
+  :root { color-scheme: light; }
+  body { margin: 0; }
+  [hidden] { display: none !important; }
+
+  /* Light and dark switch */
+  .bar-tools { display: flex; align-items: center; gap: 0.5rem; }
+  .theme-btn {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font: inherit; font-weight: 600; font-size: 0.88rem;
+    color: var(--ink); background: transparent;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 0.35rem 0.85rem 0.35rem 0.7rem; cursor: pointer;
+    transition: border-color 0.15s;
+  }
+  .theme-btn:hover { border-color: var(--accent); }
+  .theme-btn svg { width: 18px; height: 18px; fill: none; stroke: var(--accent); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .theme-btn[data-mode="light"] .i-sun, .theme-btn[data-mode="dark"] .i-moon { display: none; }
+</style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
   /* Layout: sticky nav, then stacked bands inside a 1080px wrap.
@@ -126,11 +149,7 @@
   .nav a:hover { background: var(--tint); color: var(--ink); }
 
   /* Hero */
-  .hero {
-    background:
-      radial-gradient(var(--line) 1px, transparent 1px) 0 0 / 22px 22px,
-      radial-gradient(60% 90% at 100% 0%, var(--tint), transparent 70%);
-  }
+  .hero { background: radial-gradient(60% 90% at 100% 0%, var(--tint), transparent 70%); }
   .hero h1 { font-size: clamp(2.5rem, 7vw, 4.4rem); font-weight: 700; letter-spacing: -0.03em; max-width: 14ch; }
   .hero h1 span { color: var(--accent); }
   .hero .lede { font-size: 1.15rem; margin-top: 1.25rem; }
@@ -498,6 +517,8 @@
   }
 </style>
 
+</head>
+<body>
 <header class="site-header">
   <div class="wrap bar">
     <a class="mark" href="#top" aria-label="Back to top">NK</a>
@@ -509,7 +530,14 @@
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
-    <button class="admin-btn" id="admin-toggle" type="button" aria-expanded="false" aria-controls="admin-panel">Admin</button>
+    <div class="bar-tools">
+      <button class="theme-btn" id="theme-toggle" type="button" data-mode="light" aria-label="Switch to dark mode">
+        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+        <span id="theme-label">Dark</span>
+      </button>
+      <button class="admin-btn" id="admin-toggle" type="button" aria-expanded="false" aria-controls="admin-panel">Admin</button>
+    </div>
   </div>
   <div class="admin-panel" id="admin-panel" hidden>
     <div class="wrap">
@@ -613,8 +641,8 @@
           <div><dt>Phone</dt><dd>+91 9608810224</dd></div>
         </dl>
         <div class="resume-actions">
-          <a class="btn btn-primary" id="resume-link" href="resume.pdf" target="_blank" rel="noopener">Download resume (PDF)</a>
-          <span class="resume-note">Opens the PDF. Save it from your browser if it doesn't download.</span>
+          <a class="btn btn-primary" id="resume-link" href="resume.pdf" download="Nirajan-Kushwaha-Resume.pdf">Download resume (PDF)</a>
+          <span class="resume-note">PDF, 1 page</span>
         </div>
       </div>
     </div>
@@ -1015,5 +1043,48 @@
     });
   })();
 </script>
+<script>
+  (function () {
+    var KEY = "portfolio-theme";
+    var root = document.documentElement;
+    var btn = document.getElementById("theme-toggle");
+    var label = document.getElementById("theme-label");
 
-</body></html>
+    function systemDark() {
+      return !!(window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    }
+    function current() {
+      var t = root.getAttribute("data-theme");
+      if (t === "dark" || t === "light") return t;
+      return systemDark() ? "dark" : "light";
+    }
+    function sync() {
+      var c = current();
+      btn.setAttribute("data-mode", c);
+      label.textContent = c === "dark" ? "Light" : "Dark";
+      btn.setAttribute("aria-label", "Switch to " + (c === "dark" ? "light" : "dark") + " mode");
+    }
+
+    try {
+      var saved = localStorage.getItem(KEY);
+      if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+    } catch (e) {}
+
+    btn.addEventListener("click", function () {
+      var next = current() === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", next);
+      try { localStorage.setItem(KEY, next); } catch (e) {}
+      sync();
+    });
+    if (window.MutationObserver) {
+      new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    }
+    if (window.matchMedia) {
+      var mq = window.matchMedia("(prefers-color-scheme: dark)");
+      if (mq.addEventListener) mq.addEventListener("change", sync);
+    }
+    sync();
+  })();
+</script>
+</body>
+</html>
